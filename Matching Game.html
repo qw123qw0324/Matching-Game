@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+     <style>
+     #rightSide {
+       width: 500px;
+       height: 500px;
+       left: 500px;
+       position: absolute;
+       border-left: 1px solid black;
+     }
+     #leftSide{
+       width: 500px;
+       height: 500px;
+       position: absolute;
+     }
+
+      div {position:absolute}
+      img {position:absolute}
+     </style>
+
+
+    <body onload="generateFaces()">
+      <h1> Matching Game </h1>
+      <p> Click on extra smiling face on left</p>
+
+      <div id="rightSide" > </div>
+
+      <div id="leftSide" >  </div>
+
+      <script>
+      var theLeftSide = document.getElementById("leftSide");
+      var theRightSide = document.getElementById("rightSide");
+      var numberOfFaces = 5;
+      function generateFaces(){
+
+          while(numberOfFaces > 0) {
+
+              var face = document.createElement("IMG");
+              face.setAttribute("src", "smile.png");
+
+              face.style.top = Math.floor( Math.random() * 400 ) + "px";
+              face.style.left = Math.floor( Math.random() * 400 ) + "px";
+
+              theLeftSide.appendChild(face);
+              //document.getElementById("test").innerHTML = xy[0]
+              numberOfFaces--;
+          }
+
+          var leftSideImages = theLeftSide.cloneNode(true);
+          var x = leftSideImages.lastElementChild;
+          leftSideImages.removeChild(x)
+          theRightSide.appendChild(leftSideImages);
+
+          var theBody = document.getElementsByTagName("body")[0];
+
+          theLeftSide.lastChild.onclick= function nextLevel(event){
+             event.stopPropagation();
+             numberOfFaces += 5;
+             generateFaces();
+           };
+
+           theBody.onclick = function gameOver() {
+              var r = confirm("GameOver, start again?")
+              if (r==true){
+                location.reload();
+              }
+              else{
+                alert("GameOver")
+                theBody.onclick = null;
+                theLeftSide.lastChild.onclick = null;
+              }
+           };
+
+      }
+
+      </script>
+
+
+    </body>
+</html>
